@@ -372,20 +372,20 @@ if [[ $STAR == "Y" || $STAR == "y" ]]; then
 fi
 
 # Set wallpaper using startup.sh one times
-#read -rep $'[\e[1;33mACTION\e[0m] - Would you like to activate the Wallpaper? (y,n) ' SET_WALLPAPER
-#if [[ "$SET_WALLPAPER" == "Y" || "$SET_WALLPAPER" == "y" ]]; then
-#    echo -e "$CAC - User chose to activate Wallpaper."
-#
-#    config_file="$HOME/.config/hypr/hyprland.conf"
-#
-#    if sed -i 's|#exec-once = $HOME/.config/hypr/startup.sh|exec-once = $HOME/.config/hypr/startup.sh|' "$config_file"; then
-#        echo -e "$COK - Successfully updated hyprland.conf"
-#    else
-#        echo -e "$CER - Failed to update hyprland.conf"
-#    fi
-#else
-#    echo -e "$CWR - User chose not to activate Wallpaper."
-#fi
+read -rep $'[\e[1;33mACTION\e[0m] - Would you like to activate the Wallpaper? (y,n) ' SET_WALLPAPER
+if [[ "$SET_WALLPAPER" == "Y" || "$SET_WALLPAPER" == "y" ]]; then
+    echo -e "$CAC - User chose to activate Wallpaper."
+
+    config_file="$HOME/.config/hypr/hyprland.conf"
+
+    if sed -i 's|#exec-once = bash $HOME/.config/hypr/startup.sh|exec-once = bash $HOME/.config/hypr/startup.sh|' "$config_file"; then
+        echo -e "$COK - Successfully updated hyprland.conf"
+    else
+        echo -e "$CER - Failed to update hyprland.conf"
+    fi
+else
+    echo -e "$CWR - User chose not to activate Wallpaper."
+fi
 
 ### Set Default Browser ###
 echo -e "$CAC - Choose a default browser:"
