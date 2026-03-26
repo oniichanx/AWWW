@@ -378,7 +378,7 @@ if [[ "$SET_WALLPAPER" == "Y" || "$SET_WALLPAPER" == "y" ]]; then
 
     config_file="$HOME/.config/hypr/hyprland.conf"
 
-    if sed -i 's|#exec-once = bash $HOME/.config/hypr/startup.sh|exec-once = bash $HOME/.config/hypr/startup.sh|' "$config_file"; then
+    if sed -i 's|#exec-once = $HOME/.config/hypr/startup.sh|exec-once = $HOME/.config/hypr/startup.sh|' "$config_file"; then
         echo -e "$COK - Successfully updated hyprland.conf"
     else
         echo -e "$CER - Failed to update hyprland.conf"

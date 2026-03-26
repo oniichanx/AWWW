@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # /* ---- 💫 https://github.com/oniichanx 💫 ---- */  #
 # A bash script designed to run only once dotfiles installed
 
