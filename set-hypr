@@ -44,7 +44,7 @@ install_stage=(
 	kitty
 	swaync
 	waybar
-	swww
+	awww
 	hyprlock-git
 	wallust
 	yad
