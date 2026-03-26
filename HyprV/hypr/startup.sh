@@ -26,11 +26,11 @@ effect="--transition-bezier .43,1.19,1,.4 --transition-fps 30 --transition-type 
 if [ ! -f "$HOME/.config/hypr/.initial_startup_done" ]; then
     sleep 1
     # Initialize wallust and wallpaper
-	if [ -f "$wallpaper" ]; then
-		wallust run -s $wallpaper > /dev/null
+    if [ -f "$wallpaper" ]; then
+        wallust run -s $wallpaper > /dev/null 
         "$WWW_CMD" query || "$WWW_DAEMON" && $swww $wallpaper $effect
-	    "$scriptsDir/WallustSwww.sh" > /dev/null 2>&1 &
-	fi
+        "$scriptsDir/WallustSwww.sh" > /dev/null 2>&1 & 
+    fi
 
     # initiate GTK dark mode and apply icon and cursor theme
     gsettings set org.gnome.desktop.interface color-scheme $color_scheme > /dev/null 2>&1 &
