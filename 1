@@ -1,16 +1,40 @@
-# ================== เลือกโหมดการติดตั้ง ==================
-echo -e ""
-echo -e "${NOTE} Choose Installation Mode:"
-echo "1) Single Package Mode (Stable - Recommended for first install)"
-echo "   → Install packages one by one with clear progress. Safer."
-echo "2) Batch Mode (Fast - Install all at once)"
-echo "   → Much faster on powerful machines."
-read -rep $'[\e[1;33mACTION\e[0m] - Enter 1 or 2: ' MODECHOICE
+    if [[ "$MODE" == "batch" ]]; then
+        # ====================== BATCH MODE (Fast) ======================
+        ALL_PACKAGES=(
+            "${prep_stage[@]}"
+            "$HYPR_PACKAGE"
+            "$PORTAL_PACKAGE"
+            "${install_stage[@]}"
+        )
 
-if [[ $MODECHOICE == "2" ]]; then
-    MODE="batch"
-    echo -e "${WARN} Batch Mode (Fast) selected"
-else
-    MODE="single"
-    echo -e "${NOTE} Single Package Mode (Stable) selected"
-fi
+        if [[ "$ISNVIDIA" == true ]]; then
+            ALL_PACKAGES+=("${nvidia_stage[@]}")
+            echo -e "${NOTE} NVIDIA detected → Including nvidia-open-dkms"
+        fi
+
+        echo -e "${WARN} Starting batch installation of ${#ALL_PACKAGES[@]} packages..."
+
+        $AURHELPER -S --noconfirm --needed --sudoloop "${ALL_PACKAGES[@]}" >> "$LOG" 2>&1 &
+        batch_pid=$!
+
+        echo -ne "${NOTE} Installing all packages "
+
+        while kill -0 "$batch_pid" 2>/dev/null; do
+            echo -n "."
+            sleep 0.8
+        done
+
+        wait "$batch_pid"
+        exit_code=$?
+        echo ""
+
+        if [[ $exit_code -eq 0 ]]; then
+            echo -e " ${OK} Batch installation completed successfully!"
+        else
+            echo -e " ${ERROR} Batch installation had errors."
+            echo -e "${NOTE} Last 40 lines of log:"
+            tail -n 40 "$LOG"
+            exit 1
+        fi
+
+    else
